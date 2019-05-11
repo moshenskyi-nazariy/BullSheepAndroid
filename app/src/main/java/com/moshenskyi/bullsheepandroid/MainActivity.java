@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
     private void placeObject(Anchor anchor) {
         ModelRenderable.builder()
                 // sets model from assets
-                .setSource(this, Uri.parse("Butterfly_Idle_1.sfb"))
+                .setSource(this, Uri.parse("andy_dance.sfb"))
                 .build()
                 .thenAccept(modelRenderable -> {
                     MainActivity.this.modelRenderable = modelRenderable;
