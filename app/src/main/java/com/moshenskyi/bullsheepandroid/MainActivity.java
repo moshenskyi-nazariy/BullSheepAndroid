@@ -3,7 +3,6 @@ package com.moshenskyi.bullsheepandroid;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,15 +13,18 @@ import com.google.ar.sceneform.animation.ModelAnimator;
 import com.google.ar.sceneform.math.Quaternion;
 import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.AnimationData;
-import com.google.ar.sceneform.rendering.Color;
 import com.google.ar.sceneform.rendering.ModelRenderable;
-import com.google.ar.sceneform.rendering.PlaneRenderer;
 import com.google.ar.sceneform.rendering.Texture;
 import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.google.ar.sceneform.rendering.PlaneRenderer.MATERIAL_TEXTURE;
 import static com.google.ar.sceneform.rendering.PlaneRenderer.MATERIAL_UV_SCALE;
@@ -99,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             arFragment.getArSceneView().getPlaneRenderer().getMaterial()
                     .thenAccept((material) -> {
                         material.setTexture(MATERIAL_TEXTURE, texture);
-                        material.setFloat(MATERIAL_UV_SCALE,1f);
+                        material.setFloat(MATERIAL_UV_SCALE, 1f);
                     });
         });
     }
@@ -183,6 +185,13 @@ public class MainActivity extends AppCompatActivity {
                     // inflated is setView few lines above.
                     childNode.setRenderable(viewRenderable);
 
+                    Observable.timer(3, TimeUnit.SECONDS)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(result -> transformableNode.removeChild(transformableNode),
+                                    error -> {
+                                    },
+                                    () -> childNode.setParent(null));
                 });
     }
 }
