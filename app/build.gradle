@@ -50,6 +50,10 @@ dependencies {
 
     // Support for animated model renderables
     implementation "com.google.ar.sceneform:animation:1.8.0"
+
+    //Google Fit API
+    implementation "com.google.android.gms:play-services-fitness:16.0.1"
+    implementation "com.google.android.gms:play-services-auth:16.0.1"
 }
 
 

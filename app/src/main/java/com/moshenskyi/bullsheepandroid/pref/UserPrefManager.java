@@ -14,6 +14,8 @@ public class UserPrefManager {
     private static final String SCORE_KEY = "score";
     private static final String HEALTH_KEY = "health";
     private static final String MOOD_KEY = "mood";
+    private static final String FIT_HEALTH_POINT_KEY = "fit_health";
+    private static final String FIT_STEP_KEY = "fit_step";
 
     private static UserPrefManager userPrefManager = new UserPrefManager();
 
@@ -55,5 +57,17 @@ public class UserPrefManager {
     public int getMoodPoint() {
         SharedPreferences prefs = App.getContext().getSharedPreferences(MY_PREFS, MODE_PRIVATE);
         return prefs.getInt(MOOD_KEY, 30);
+    }
+
+    public void writeFitHealthPoint(int fitHealthP) {
+        SharedPreferences.Editor editor = App.getContext()
+                .getSharedPreferences(MY_PREFS, MODE_PRIVATE).edit();
+        editor.putInt(FIT_HEALTH_POINT_KEY, fitHealthP);
+        editor.apply();
+    }
+
+    public int getFitHealthPoint() {
+        SharedPreferences prefs = App.getContext().getSharedPreferences(MY_PREFS, MODE_PRIVATE);
+        return prefs.getInt(FIT_HEALTH_POINT_KEY, 10);
     }
 }
