@@ -32,7 +32,7 @@ import io.reactivex.subjects.Subject;
 
 public class AudioActivity extends AppCompatActivity {
 
-    private static final int VOLUME_MAX = 100;
+    private static final int VOLUME_MAX = 30;
     private ArFragment arFragment;
 
     private ModelRenderable modelRenderable;
@@ -76,10 +76,8 @@ public class AudioActivity extends AppCompatActivity {
             .OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            int newVolume = (progress * audioManager.getStreamMaxVolume(AudioManager
-                    .STREAM_MUSIC)) / VOLUME_MAX;
-            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, newVolume, 0);
-            volumeValue.setText("Volume: " + progress);
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+            volumeValue.setText("Volume: ");
         }
 
         @Override
@@ -148,7 +146,7 @@ public class AudioActivity extends AppCompatActivity {
                     playBtn = viewRenderable.getView().findViewById(R.id.play_btn);
                     pauseBtn = viewRenderable.getView().findViewById(R.id.pause_btn);
                     volumeValue = viewRenderable.getView().findViewById(R.id.volume_value);
-                    volumeValue.setText("Volume: " + audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+                    volumeValue.setText("Volume: ");
                     volumeSeekBar = viewRenderable.getView().findViewById(R.id.volume_controls);
                     setupVolumeControl();
                     initClickListeners();
@@ -168,8 +166,7 @@ public class AudioActivity extends AppCompatActivity {
 
         volumeSeekBar.setMax(VOLUME_MAX);
         volumeSeekBar.setOnSeekBarChangeListener(seekBarChangeListener);
-        int streamVolume = (audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) * 100) /
-                audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        int streamVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         volumeSeekBar.setProgress(streamVolume);
     }
 
