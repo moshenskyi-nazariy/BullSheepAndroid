@@ -3,17 +3,20 @@ package com.moshenskyi.bullsheepandroid;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.ar.core.Anchor;
+import com.google.ar.core.TrackingState;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.math.Quaternion;
 import com.google.ar.sceneform.math.Vector3;
-import com.google.ar.sceneform.rendering.MaterialFactory;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
-import com.moshenskyi.bullsheepandroid.R;
+
+import java.util.function.Function;
 
 public class MainActivity extends AppCompatActivity {
     private ArFragment arFragment;
@@ -22,10 +25,14 @@ public class MainActivity extends AppCompatActivity {
 
     private ModelRenderable modelRenderable;
 
+    private TextView findSurfaceTv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        findSurfaceTv = findViewById(R.id.find_surface);
 
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ar_fragment);
 
@@ -36,6 +43,14 @@ public class MainActivity extends AppCompatActivity {
                 // hitResult.createAnchor() - method for creating Anchor
                 // in place where user tapped
                 placeObject(hitResult.createAnchor());
+                findSurfaceTv.setVisibility(View.GONE);
+            }
+        });
+        arFragment.getArSceneView().getScene().addOnUpdateListener(frameTime -> {
+            com.google.ar.core.Camera camera = arFragment.getArSceneView().getArFrame().getCamera();
+            if (camera.getTrackingState() == TrackingState.TRACKING) {
+                arFragment.getPlaneDiscoveryController().hide();
+                findSurfaceTv.setText("Tap to place");
             }
         });
     }
@@ -48,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private void placeObject(Anchor anchor) {
         ModelRenderable.builder()
                 // sets model from assets
-                .setSource(this, Uri.parse("model.sfb"))
+                .setSource(this, Uri.parse("andy_dance.sfb"))
                 .build()
                 .thenAccept(modelRenderable -> {
                     MainActivity.this.modelRenderable = modelRenderable;
