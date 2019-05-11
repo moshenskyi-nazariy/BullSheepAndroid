@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         llBottomSheet.setVisibility(View.GONE);
 
         TextView audioTv = findViewById(R.id.audioTv);
-        audioTv.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, AudioActivity.class)));
+        audioTv.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, AudioListActivity.class)));
     }
 
     private void setupPlaneRenderer() {
