@@ -65,9 +65,3 @@ sceneform.asset('sampledata/models/andy_wave_r.fbx',
         'default',
         'sampledata/models/andy_wave_r.sfa',
         'src/main/assets/andy_wave_r')
-
-sceneform.asset('sampledata/models/Butterfly_Idle_1.fbx',
-        'default',
-        'sampledata/models/Butterfly_Idle_1.sfa',
-        'src/main/assets/Butterfly_Idle_1',
-        ['sampledata/models/Butterfly_Idle_7.fbx', 'sampledata/models/Butterfly_Idle_3.fbx', 'sampledata/models/Butterfly_Idle_5.fbx', 'sampledata/models/Butterfly_Idle_4.fbx', 'sampledata/models/Butterfly_Idle_6.fbx', 'sampledata/models/Butterfly_Idle_2.fbx'])
