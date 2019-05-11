@@ -1,5 +1,6 @@
 package com.moshenskyi.bullsheepandroid;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -107,6 +108,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         llBottomSheet.setVisibility(View.GONE);
+
+        TextView audioTv = findViewById(R.id.audioTv);
+        audioTv.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, AudioActivity.class)));
     }
 
     private void setupPlaneRenderer() {

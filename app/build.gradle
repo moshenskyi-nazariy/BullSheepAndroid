@@ -67,3 +67,9 @@ sceneform.asset('sampledata/models/andy_wave_r.fbx',
         'default',
         'sampledata/models/andy_wave_r.sfa',
         'src/main/assets/andy_wave_r')
+
+
+sceneform.asset('sampledata/models/gramophone.obj',
+        'default',
+        'sampledata/models/gramophone.sfa',
+        'src/main/assets/gramophone')
