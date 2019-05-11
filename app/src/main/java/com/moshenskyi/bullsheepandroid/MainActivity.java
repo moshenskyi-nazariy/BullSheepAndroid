@@ -2,8 +2,11 @@ package com.moshenskyi.bullsheepandroid;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.ar.core.Anchor;
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private ModelAnimator animator;
     private int nextAnimation;
 
+    private LinearLayout llBottomSheet;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 placeObject(hitResult.createAnchor());
                 findSurfaceTv.setVisibility(View.GONE);
                 findViewById(R.id.statistics).setVisibility(View.VISIBLE);
+                llBottomSheet.setVisibility(View.VISIBLE);
             }
         });
 
@@ -70,6 +76,37 @@ public class MainActivity extends AppCompatActivity {
             }
 //            setPlaneTexture("frame.png");
         });
+
+        initBottomSheet();
+    }
+
+    private void initBottomSheet() {
+        llBottomSheet = findViewById(R.id.bottom_sheet);
+        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
+        //  bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        //bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        // bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+// set the peek height
+        // bottomSheetBehavior.setPeekHeight(340);
+
+// set hideable or not
+        bottomSheetBehavior.setHideable(false);
+
+// set callback for changes
+
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+        llBottomSheet.setVisibility(View.GONE);
     }
 
     private void setupPlaneRenderer() {
