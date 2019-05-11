@@ -3,14 +3,19 @@ package com.moshenskyi.bullsheepandroid;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.ar.core.Anchor;
 import com.google.ar.core.TrackingState;
 import com.google.ar.sceneform.AnchorNode;
+import com.google.ar.sceneform.animation.ModelAnimator;
 import com.google.ar.sceneform.math.Quaternion;
 import com.google.ar.sceneform.math.Vector3;
+import com.google.ar.sceneform.rendering.AnimationData;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
@@ -26,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private ModelRenderable modelRenderable;
 
     private TextView findSurfaceTv;
+
+    private ModelAnimator animator;
+    private int nextAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +79,16 @@ public class MainActivity extends AppCompatActivity {
                     placeNodes(anchor, modelRenderable);
                 });
     }
+
+    private void onPlayAnimation(View unusedView) {
+        if (animator == null || !animator.isRunning()) {
+            AnimationData data = modelRenderable.getAnimationData(nextAnimation);
+            nextAnimation = (nextAnimation + 1) % modelRenderable.getAnimationDataCount();
+            animator = new ModelAnimator(data, modelRenderable);
+            animator.start();
+        }
+    }
+
 
     /**
      * Places object where user has tapped
