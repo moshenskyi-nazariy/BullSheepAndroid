@@ -100,7 +100,7 @@ public class AudioActivity extends AppCompatActivity {
 
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ar_fragment_audio);
 
-        player = MediaPlayer.create(AudioActivity.this, R.raw.sky_boat_storynory);
+        player = MediaPlayer.create(AudioActivity.this, R.raw.tsawyer);
 
         musicSubject = PublishSubject.create();
 
