@@ -47,8 +47,8 @@ public class PetNameActivity extends AppCompatActivity {
             UserPrefManager.getInstance().writeMoodPoint(10);
 
             UserPrefManager.getInstance().writeName(petName);
-           /* Intent intent = new Intent(PetNameActivity.this, MainActivity.class);
-            PetNameActivity.this.startActivity(intent);*/
+            Intent intent = new Intent(PetNameActivity.this, MainActivity.class);
+            PetNameActivity.this.startActivity(intent);
 
 
             Log.i("PET NAME", UserPrefManager.getInstance().getName());

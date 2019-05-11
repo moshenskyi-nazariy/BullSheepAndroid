@@ -22,4 +22,11 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textSize="64sp"/>
 
+    <include layout="@layout/statistic_layout"
+        android:id="@+id/statistics"
+        android:layout_gravity="top|end"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:visibility="gone" />
+
 </FrameLayout>
