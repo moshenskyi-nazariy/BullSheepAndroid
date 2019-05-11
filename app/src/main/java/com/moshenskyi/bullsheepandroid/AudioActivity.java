@@ -6,15 +6,21 @@ import android.graphics.PorterDuff;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.google.ar.core.Anchor;
-import com.google.ar.core.TrackingState;
+import com.google.ar.core.Frame;
+import com.google.ar.core.HitResult;
+import com.google.ar.core.Plane;
+import com.google.ar.core.Trackable;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.math.Quaternion;
 import com.google.ar.sceneform.math.Vector3;
@@ -22,6 +28,8 @@ import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
+
+import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -96,35 +104,57 @@ public class AudioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audio);
 
-        audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+        audioManager = (AudioManager) getApplicationContext().getSystemService(Context
+                .AUDIO_SERVICE);
 
-        arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ar_fragment_audio);
+        arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id
+                .ar_fragment_audio);
 
         player = MediaPlayer.create(AudioActivity.this, R.raw.tsawyer);
 
         musicSubject = PublishSubject.create();
 
-        arFragment.setOnTapArPlaneListener((hitResult, plane, motionEvent) -> {
-            if (items++ < 1) {
-                placeObject(hitResult.createAnchor());
-            }
-        });
-
-
+        initializeGallery();
     }
 
-    private void placeObject(Anchor anchor) {
+    private void initializeGallery() {
+        LinearLayout gallery = findViewById(R.id.gallery_layout);
+
+        ImageView gramophoneImageView = new ImageView(this);
+        gramophoneImageView.setImageResource(R.drawable.gramophone_img);
+        gramophoneImageView.setOnClickListener(view -> placeObject(Uri.parse("gramophone.sfb")));
+
+        gallery.addView(gramophoneImageView);
+    }
+
+    private void placeObject(Uri pathToModel) {
+        Frame frame = arFragment.getArSceneView().getArFrame();
+        android.graphics.Point pt = getScreenCenter();
+        List<HitResult> hits;
+        if (frame != null) {
+            hits = frame.hitTest(pt.x, pt.y);
+            for (HitResult hit : hits) {
+                Trackable trackable = hit.getTrackable();
+                if (trackable instanceof Plane &&
+                        ((Plane) trackable).isPoseInPolygon(hit.getHitPose()) && items++ < 1) {
+                    placeObjectByCoords(hit.createAnchor(), pathToModel);
+                    break;
+
+                }
+            }
+        }
+    }
+
+    private void placeObjectByCoords(Anchor anchor, Uri pathToModel) {
         ModelRenderable.builder()
-                .setSource(this, Uri.parse("gramophone.sfb"))
+                .setSource(this, pathToModel)
                 .build()
-                .thenAccept(modelRenderable -> {
-                    if (AudioActivity.this.modelRenderable == null) {
-                        AudioActivity.this.modelRenderable = modelRenderable;
-                    } else {
-                        AudioActivity.this.modelRenderable = modelRenderable;
-                    }
-                    placeNodes(anchor, modelRenderable);
-                });
+                .thenAccept(renderable -> placeNodes(anchor, renderable));
+    }
+
+    private android.graphics.Point getScreenCenter() {
+        View vw = findViewById(android.R.id.content);
+        return new android.graphics.Point(vw.getWidth() / 2, vw.getHeight() / 2);
     }
 
     private void placeNodes(Anchor anchor, ModelRenderable renderable) {
