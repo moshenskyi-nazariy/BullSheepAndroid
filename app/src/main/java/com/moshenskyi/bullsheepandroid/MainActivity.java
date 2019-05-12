@@ -1,40 +1,40 @@
 package com.moshenskyi.bullsheepandroid;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.ar.core.Anchor;
 import com.google.ar.core.TrackingState;
 import com.google.ar.sceneform.AnchorNode;
+import com.google.ar.sceneform.Node;
 import com.google.ar.sceneform.animation.ModelAnimator;
 import com.google.ar.sceneform.math.Quaternion;
 import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.AnimationData;
 import com.google.ar.sceneform.rendering.ModelRenderable;
-import com.google.ar.sceneform.rendering.Texture;
 import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 import com.moshenskyi.bullsheepandroid.pref.UserPrefManager;
 
-import org.w3c.dom.Text;
-
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-
-import static com.google.ar.sceneform.rendering.PlaneRenderer.MATERIAL_TEXTURE;
-import static com.google.ar.sceneform.rendering.PlaneRenderer.MATERIAL_UV_SCALE;
 
 public class MainActivity extends AppCompatActivity {
     private ArFragment arFragment;
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private int nextAnimation;
 
     private LinearLayout llBottomSheet;
+//    private BottomSheetBehavior bottomSheetBehavior;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 placeObject(hitResult.createAnchor());
                 findSurfaceTv.setVisibility(View.GONE);
                 findViewById(R.id.statistics).setVisibility(View.VISIBLE);
-                llBottomSheet.setVisibility(View.VISIBLE);
+                findViewById(R.id.info).setVisibility(View.VISIBLE);
             }
         });
 
@@ -89,30 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initBottomSheet() {
         llBottomSheet = findViewById(R.id.bottom_sheet);
-        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
-        //  bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        //bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        // bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
-// set the peek height
-        // bottomSheetBehavior.setPeekHeight(340);
-
-// set hideable or not
-        bottomSheetBehavior.setHideable(false);
-
-// set callback for changes
-
-        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
-            }
-        });
         llBottomSheet.setVisibility(View.GONE);
 
         TextView audioTv = findViewById(R.id.audioTv);
@@ -219,7 +197,46 @@ public class MainActivity extends AppCompatActivity {
                             .subscribe(result -> transformableNode.removeChild(transformableNode),
                                     error -> {
                                     },
-                                    () -> childNode.setParent(null));
+                                    () -> {
+                                        childNode.setParent(null);
+                                        showTasks(anchorNode, transformableNode);
+                                    });
+                });
+    }
+
+    private void showTasks(AnchorNode anchorNode, TransformableNode transformableNode) {
+        Node childNode = new Node();
+        childNode.setParent(anchorNode);
+        childNode.setLocalPosition(new Vector3(0f, transformableNode
+                .getLocalPosition().y + 0.8f, 0f));
+        ViewRenderable.builder()
+                .setView(this, R.layout.info_layout)
+                .build()
+                .thenAccept(modelRenderable -> {
+                    childNode.setRenderable(modelRenderable);
+                    ImageView reportView = modelRenderable.getView().findViewById(R.id.report_view);
+                    reportView.setOnClickListener(v -> {
+                        if (llBottomSheet.getVisibility() == View.GONE) {
+                            initBottomSheet();
+                            llBottomSheet.setVisibility(View.VISIBLE);
+                            ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(llBottomSheet,
+                                    "alpha", 0, 1);
+                            objectAnimator.setDuration(1200);
+                            objectAnimator.setInterpolator(new DecelerateInterpolator());
+                            objectAnimator.start();
+                        } else {
+                            ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(llBottomSheet,
+                                    "alpha", 1, 0);
+                            objectAnimator.setDuration(1200);
+                            objectAnimator.setInterpolator(new DecelerateInterpolator());
+                            objectAnimator.start();
+                            llBottomSheet.setVisibility(View.GONE);
+                        }
+
+                    });
+                }).exceptionally(throwable -> {
+                    Toast.makeText(MainActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                    return null;
                 });
     }
 }
