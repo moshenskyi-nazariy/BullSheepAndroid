@@ -6,8 +6,10 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +37,7 @@ public class AudioListActivity extends AppCompatActivity {
         toolbar.setTitle("Books");
         bookListRv = findViewById(R.id.bookListRv);
 
-        bookListRv.setLayoutManager(new GridLayoutManager(this, 2));
+        bookListRv.setLayoutManager(new StaggeredGridLayoutManager(2, RecyclerView.VERTICAL));
         initRv();
     }
 
@@ -44,9 +46,9 @@ public class AudioListActivity extends AppCompatActivity {
         List<Book> books = new ArrayList<>();
         books.add(new Book("peter_rabbit","Peter Rabbit", 10));
         books.add(new Book("monkey","Things to do", 80));
-        books.add(new Book("warrior","Money Something", 20));
         books.add(new Book("cogheart","Cogheart", 0));
         books.add(new Book("some","Histories Demes Gans", 84));
+        books.add(new Book("warrior","Money Something", 20));
 
         bookListRv.setAdapter(new BookAdapter(this, books, () -> {
             startActivity(new Intent(AudioListActivity.this, AudioActivity.class));

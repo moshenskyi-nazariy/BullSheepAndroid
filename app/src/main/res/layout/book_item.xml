@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="wrap_content"
     android:id="@+id/bookItemParent">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         app:cardCornerRadius="4dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,7 +18,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ProgressBar
                 android:id="@+id/bookItemProgressBar"
@@ -28,18 +28,21 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:indeterminate="false"
+                app:layout_constraintVertical_chainStyle="packed"
                 android:max="100"
                 android:progress="20"
                 android:scaleY="2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bookItemProgressTv"/>
 
             <RelativeLayout
+                android:id="@+id/title_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/background_gradient"
+                android:background="@drawable/title_background"
                 android:elevation="2dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -59,13 +62,14 @@
             <ImageView
                 android:id="@+id/bookImage"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_marginBottom="24dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toTopOf="@+id/bookItemProgressBar"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                tools:layout_height="300dp"
+                app:layout_constraintBottom_toTopOf="@+id/bookItemProgressTv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
                 app:srcCompat="@drawable/peter_rabbit" />
 
             <TextView
@@ -75,7 +79,9 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:text="TextView"
+                app:layout_constraintVertical_chainStyle="packed"
                 android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@+id/bookItemProgressBar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/bookImage" />
 
