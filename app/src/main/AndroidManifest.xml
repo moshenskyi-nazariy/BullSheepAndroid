@@ -28,6 +28,8 @@
         <activity
             android:screenOrientation="portrait"
             android:name=".MainActivity" />
+        <activity android:name=".UserProfileActivity"
+            android:screenOrientation="portrait"></activity>
 
         <meta-data
             android:name="com.google.ar.core"
