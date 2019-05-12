@@ -5,4 +5,4 @@
     android:layout_height="wrap_content"
     android:text="Hello!"
     android:padding="8dp"
-    android:background="@drawable/hello_message"/>
+    android:background="@drawable/controls_shape"/>
