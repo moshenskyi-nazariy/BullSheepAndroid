@@ -25,19 +25,11 @@
     <include
         android:id="@+id/statistics"
         layout="@layout/statistic_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
+        android:layout_gravity="top"
         android:visibility="gone" />
-
     <include layout="@layout/bottom_sheet" />
 
-    <include
-        android:id="@+id/info"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|start"
-        layout="@layout/pet_info_layout"/>
 
 </android.support.design.widget.CoordinatorLayout>

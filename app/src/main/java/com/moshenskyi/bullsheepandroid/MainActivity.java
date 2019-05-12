@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
                 placeObject(hitResult.createAnchor());
                 findSurfaceTv.setVisibility(View.GONE);
                 findViewById(R.id.statistics).setVisibility(View.VISIBLE);
-                findViewById(R.id.info).setVisibility(View.VISIBLE);
                 llBottomSheet.setVisibility(View.VISIBLE);
             }
         });

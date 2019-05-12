@@ -21,4 +21,11 @@
         android:layout_marginStart="125dp"
         android:layout_gravity="center_vertical"/>
 
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="80dp"
+        android:layout_gravity="center_vertical|end"
+        android:src="@drawable/ic_arrow_upward_black_24dp" />
 </FrameLayout>
