@@ -32,7 +32,9 @@ public class PetNameActivity extends AppCompatActivity {
             String petName = petNameEt.getText().toString();
 
             UserPrefManager.getInstance().writeHealthPoint(1000);
-            UserPrefManager.getInstance().writeMoodPoint(10);
+            if (UserPrefManager.getInstance().getMoodPoint() < 0) {
+                UserPrefManager.getInstance().writeMoodPoint(10);
+            }
 
             UserPrefManager.getInstance().writeName(petName);
             Intent intent = new Intent(PetNameActivity.this, MainActivity.class);

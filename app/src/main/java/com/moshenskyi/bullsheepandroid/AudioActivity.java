@@ -1,16 +1,28 @@
 package com.moshenskyi.bullsheepandroid;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -28,6 +40,7 @@ import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
+import com.moshenskyi.bullsheepandroid.pref.UserPrefManager;
 
 import java.util.List;
 
@@ -113,6 +126,9 @@ public class AudioActivity extends AppCompatActivity {
         player = MediaPlayer.create(AudioActivity.this, R.raw.tsawyer);
 
         musicSubject = PublishSubject.create();
+
+        TextView mood = findViewById(R.id.statisticMoodPointTv);
+        mood.setText(String.valueOf(UserPrefManager.getInstance().getMoodPoint()));
 
         initializeGallery();
     }
@@ -213,6 +229,53 @@ public class AudioActivity extends AppCompatActivity {
             pauseBtn.setVisibility(View.VISIBLE);
             subscribe();
             musicSubject.onNext(player);
+            ImageView smile = findViewById(R.id.sm1);
+            smile.setVisibility(View.VISIBLE);
+            Point point = new Point();
+            getWindowManager().getDefaultDisplay().getSize(point);
+            ObjectAnimator translateAnimator = ObjectAnimator.ofFloat(smile, "translationY", -(point.y - 500));
+            translateAnimator.setInterpolator(new LinearInterpolator());
+            translateAnimator.setDuration(5000);
+
+            ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(smile, "alpha", 0f, 1f);
+            alphaAnimator.setInterpolator(new LinearInterpolator());
+            alphaAnimator.setDuration(5000);
+
+            alphaAnimator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    smile.setVisibility(View.GONE);
+
+                    TextView points = findViewById(R.id.statisticMoodPointTv);
+                    ObjectAnimator translateAnimator = ObjectAnimator.ofFloat(points, "alpha", 1, 0);
+                    translateAnimator.setInterpolator(new LinearInterpolator());
+                    translateAnimator.setDuration(700);
+                    translateAnimator.start();
+                    translateAnimator.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(points, "alpha", 0, 1);
+                            alphaAnimator.setInterpolator(new LinearInterpolator());
+                            alphaAnimator.setDuration(700);
+                            alphaAnimator.addListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationStart(Animator animation) {
+                                    Integer pointVal = Integer.valueOf(points.getText().toString()) + 5;
+                                    points.setText(String.valueOf(pointVal));
+                                    UserPrefManager.getInstance().writeMoodPoint(pointVal);
+                                }
+                            });
+                            alphaAnimator.start();
+                        }
+                    });
+                }
+            });
+
+            AnimatorSet animationSet = new AnimatorSet();
+            animationSet.play(translateAnimator).with(alphaAnimator);
+            animationSet.setStartDelay(200);
+            animationSet.start();
+
         });
 
         pauseBtn.setOnClickListener(view -> {
