@@ -115,7 +115,10 @@ public class MainActivity extends AppCompatActivity {
         llBottomSheet.setVisibility(View.GONE);
 
         TextView audioTv = findViewById(R.id.audioTv);
-        audioTv.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, AudioListActivity.class)));
+        audioTv.setOnClickListener(v -> {
+            items = 0;
+            startActivity(new Intent(MainActivity.this, AudioListActivity.class));
+        });
     }
 
     @Override
