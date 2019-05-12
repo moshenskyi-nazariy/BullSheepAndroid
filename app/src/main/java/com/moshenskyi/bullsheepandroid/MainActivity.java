@@ -22,6 +22,7 @@ import com.google.ar.sceneform.rendering.Texture;
 import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
+import com.moshenskyi.bullsheepandroid.pref.UserPrefManager;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -79,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
 //            setPlaneTexture("frame.png");
         });
 
+        TextView moodPoints = findViewById(R.id.statisticMoodPointTv);
+        moodPoints.setText(String.valueOf(UserPrefManager.getInstance().getMoodPoint()));
+
         initBottomSheet();
     }
 
@@ -114,38 +118,11 @@ public class MainActivity extends AppCompatActivity {
         audioTv.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, AudioListActivity.class)));
     }
 
-    private void setupPlaneRenderer() {
-        CompletableFuture<Texture> build = Texture.builder().setSource(this, R.drawable
-                .square_plane_renderer)
-                .build();
-        arFragment.getArSceneView()
-                .getPlaneRenderer()
-                .getMaterial()
-                .thenAcceptBoth(build, (material, texture) -> {
-                    material.setTexture(MATERIAL_TEXTURE, texture);
-                    material.setFloat2(MATERIAL_UV_SCALE, 10.0f, 10.0f);
-                });
-    }
-
-    private void setPlaneTexture(String path) {
-
-        Texture.Sampler sampler = Texture.Sampler.builder()
-                .setMinFilter(Texture.Sampler.MinFilter.NEAREST)
-                .setMagFilter(Texture.Sampler.MagFilter.NEAREST)
-                .setWrapModeR(Texture.Sampler.WrapMode.CLAMP_TO_EDGE)
-                .setWrapModeS(Texture.Sampler.WrapMode.CLAMP_TO_EDGE)
-                .setWrapModeT(Texture.Sampler.WrapMode.CLAMP_TO_EDGE)
-                .build();
-
-        Texture.builder().setSource(() -> getAssets().open(path))
-                .setSampler(sampler)
-                .build().thenAccept((texture) -> {
-            arFragment.getArSceneView().getPlaneRenderer().getMaterial()
-                    .thenAccept((material) -> {
-                        material.setTexture(MATERIAL_TEXTURE, texture);
-                        material.setFloat(MATERIAL_UV_SCALE, 1f);
-                    });
-        });
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView moodPoints = findViewById(R.id.statisticMoodPointTv);
+        moodPoints.setText(String.valueOf(UserPrefManager.getInstance().getMoodPoint()));
     }
 
     /**

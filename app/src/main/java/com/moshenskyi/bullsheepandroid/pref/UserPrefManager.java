@@ -54,6 +54,6 @@ public class UserPrefManager {
 
     public int getMoodPoint() {
         SharedPreferences prefs = App.getContext().getSharedPreferences(MY_PREFS, MODE_PRIVATE);
-        return prefs.getInt(MOOD_KEY, 30);
+        return prefs.getInt(MOOD_KEY, -30);
     }
 }
