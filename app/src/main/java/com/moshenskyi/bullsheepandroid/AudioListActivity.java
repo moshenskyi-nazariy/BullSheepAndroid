@@ -48,7 +48,7 @@ public class AudioListActivity extends AppCompatActivity {
         books.add(new Book("monkey","Things to do", 80));
         books.add(new Book("cogheart","Cogheart", 0));
         books.add(new Book("some","Histories Demes Gans", 84));
-        books.add(new Book("warrior","Money Something", 20));
+        books.add(new Book("bear","Money Something", 20));
 
         bookListRv.setAdapter(new BookAdapter(this, books, () -> {
             startActivity(new Intent(AudioListActivity.this, AudioActivity.class));

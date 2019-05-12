@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="48dp"
-            android:text="GOOGLE FIT"
+            android:text="PROFILE"
             android:textSize="30sp"
             app:layout_constraintStart_toEndOf="@+id/imageView3"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -69,14 +69,14 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/googleFitTv"
-            app:srcCompat="@drawable/ic_favorite_black_24dp" />
+            app:srcCompat="@drawable/ic_face_black_24dp" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Steps and water"
+            android:text="User info"
             app:layout_constraintStart_toStartOf="@+id/googleFitTv"
             app:layout_constraintTop_toBottomOf="@+id/googleFitTv" />
 

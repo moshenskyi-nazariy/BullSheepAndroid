@@ -24,6 +24,8 @@ import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 import com.moshenskyi.bullsheepandroid.pref.UserPrefManager;
 
+import org.w3c.dom.Text;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -117,6 +119,11 @@ public class MainActivity extends AppCompatActivity {
         audioTv.setOnClickListener(v -> {
             items = 0;
             startActivity(new Intent(MainActivity.this, AudioListActivity.class));
+        });
+
+        TextView googleTv = findViewById(R.id.googleFitTv);
+        googleTv.setOnClickListener(v-> {
+            startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
         });
     }
 
