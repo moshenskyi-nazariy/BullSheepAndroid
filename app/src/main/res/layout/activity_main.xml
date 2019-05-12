@@ -17,9 +17,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="Find surface"
+        android:layout_marginTop="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textColor="@android:color/white"
-        android:textSize="64sp" />
+        android:textSize="44sp" />
 
     <include
         android:id="@+id/statistics"
