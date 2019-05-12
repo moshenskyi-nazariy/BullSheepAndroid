@@ -12,7 +12,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="4dp"
         android:textColor="@android:color/black"
-        android:text="The adventures of Tom Sawyer"/>
+        android:text="Peter Rabit"/>
 
     <LinearLayout
         android:layout_width="200dp"
