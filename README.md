@@ -7,7 +7,12 @@ Kids. 6-12 years old.
 
 ## Project goal
 To make studying easier and make it interactive. We believe that any studying approach should improve while technologies are improving. 
-We created an AR app. It works like Tamagochi. The kid have its pet, it should take care of this pet. Unlike Tamagochi, user shouldn't feed his/her pet. It tracks your activity from Google Fit and based on this data it calculates its **health**. Another feature of our "tamagochi" - **mood**. Its mood depends on how much you play with it. So, you can listen to audiobooks, solve puzzles, etc. And yes...kid can just throw its phone away and don't listen to our audiobook, so that's why we applied tests after listening. So, if the user wants to gain some **score poins** - play honestly.
+
+We created an **AR app**. It works like Tamagochi. The kid have its pet, it should take care of.  It can interact, move, play, scale, rotate a pet. As well as audio gramophone and audio player menu. Everything is interactive. Everything is in **Augmented reality**
+
+Unlike Tamagochi, user shouldn't feed his/her pet. It tracks your activity from Google Fit and based on this data it calculates its **health**. 
+
+Another feature of our "tamagochi" - **mood**. Its mood depends on how much you play with it. So, you can listen to audiobooks, solve puzzles, etc. And yes...kid can just throw its phone away and don't listen to our audiobook, so that's why we applied tests after listening. So, if the user wants to gain some **score poins** - play honestly.
 
 **Score points** allow your kid to unlock new characters(pets). Your first character is Android dancing breakdance.
 As long as children can't buy anything we provided parent's web-panel, where they can track child's activity, learning path and buy them new pets.
